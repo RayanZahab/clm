@@ -1,0 +1,98 @@
+/* These styles are generated from project.scss. */
+
+[hidden][style="display: block;"] {
+  display: block !important;
+}
+[class^="icon-"], [class*=" icon-"] {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+    vertical-align: text-top;
+    background-image: url("../images/glyphicons-halflings.png");
+    background-position: 14px 14px;
+    background-repeat: no-repeat;
+}
+.icon-white {
+    background-image: url("../images/glyphicons-halflings-white.png");
+}
+.icon-trash {
+    background-position: -456px 0;
+}
+.icon-delete {
+    background-position: -312px 0;
+}
+.icon-edit-sign {
+  background-position: 0px -72px;
+}
+.icon-plus-sign {
+    background-position: -408px -96px;
+}
+.icon-synch-sign {
+    background-position: -216px -24px;
+}
+.icon-info-sign {
+   background-position: -96px -95px;
+}
+.icon-export-sign {
+   background-position: -96px -24px;
+}
+.icon-validation-sign {
+  background-position: -288px 0px;
+}
+.icon-clear-sign {
+  background-position: -313px 0px;
+}
+.icon-next-sign {
+  background-position: -455px -71px;
+}
+.icon-prev-sign {
+  background-position: -430px -71px;
+}
+.icon-edit {
+    background-position: -95px -71px;
+}
+.icon-Male {
+  background-position: 0px 0px;
+  width: 55px;
+  height: 55px;
+  vertical-align: middle;
+  background-image: url("../images/icon-Male.png");
+}
+.icon-Female {
+  background-position: 0px 0px;
+  width: 55px;
+  height: 55px;
+  vertical-align: middle;
+  background-image: url("../images/icon-Female.png");
+}
+.badge {
+    margin-top: 3px;
+    width: 25px;
+    height: 22px;
+}
+.bd-callout {
+    padding: 1.25rem;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    border: 1px solid #eee;
+    border-left-width: .25rem;
+    border-radius: .25rem;
+}
+.bd-callout-warning {
+    border-left-color: #f0ad4e;
+}
+.bd-callout-warning h4 {
+    color: #f0ad4e;
+}
+.bd-callout h4 {
+    margin-top: 0;
+    margin-bottom: 2rem;
+}
+.table-container thead {
+    /*background: rgba(255,255,255,.5) !important;*/
+    /*color: rgba(255,255,255,.5);*/
+}
+tr.odd {
+    background-color: #eceeef;
+}
