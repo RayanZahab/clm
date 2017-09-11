@@ -22,16 +22,18 @@ class Assessment(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
     overview = models.TextField(blank=True, null=True)
+    title = models.TextField(blank=True, null=True)
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
     capacity = models.IntegerField(blank=True, null=True)
+    test_order = models.IntegerField(blank=True, null=True)
     assessment_form = models.URLField(blank=True, null=True)
 
     class Meta:
-        ordering = ['name']
+        ordering = ['test_order']
 
     def __unicode__(self):
-        return self.name
+        return self.title
 
 
 class Cycle(models.Model):

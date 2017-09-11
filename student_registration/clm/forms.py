@@ -41,31 +41,31 @@ DAYS.append(('', _('---------')))
 
 class CommonForm(forms.ModelForm):
 
-    new_registry = forms.TypedChoiceField(
-        label=_("First time registered?"),
-        choices=YES_NO_CHOICE,
-        coerce=lambda x: bool(int(x)),
-        widget=forms.RadioSelect,
-        required=True,
-        initial=1
-    )
-    student_outreached = forms.TypedChoiceField(
-        label=_("Student outreached?"),
-        choices=YES_NO_CHOICE,
-        coerce=lambda x: bool(int(x)),
-        widget=forms.RadioSelect,
-        required=True,
-    )
-    have_barcode = forms.TypedChoiceField(
-        label=_("Have barcode with him?"),
-        choices=YES_NO_CHOICE,
-        coerce=lambda x: bool(int(x)),
-        widget=forms.RadioSelect,
-        required=False,
-    )
-    search_barcode = forms.CharField(widget=forms.TextInput, required=False)
-    # search_student = forms.CharField(widget=forms.TextInput, required=False)
-    outreach_barcode = forms.CharField(widget=forms.TextInput, required=False)
+    # new_registry = forms.TypedChoiceField(
+    #     label=_("First time registered?"),
+    #     choices=YES_NO_CHOICE,
+    #     coerce=lambda x: bool(int(x)),
+    #     widget=forms.RadioSelect,
+    #     required=True,
+    #     initial=1
+    # )
+    # student_outreached = forms.TypedChoiceField(
+    #     label=_("Student outreached?"),
+    #     choices=YES_NO_CHOICE,
+    #     coerce=lambda x: bool(int(x)),
+    #     widget=forms.RadioSelect,
+    #     required=True,
+    # )
+    # have_barcode = forms.TypedChoiceField(
+    #     label=_("Have barcode with him?"),
+    #     choices=YES_NO_CHOICE,
+    #     coerce=lambda x: bool(int(x)),
+    #     widget=forms.RadioSelect,
+    #     required=False,
+    # )
+    # search_barcode = forms.CharField(widget=forms.TextInput, required=False)
+    # # search_student = forms.CharField(widget=forms.TextInput, required=False)
+    # outreach_barcode = forms.CharField(widget=forms.TextInput, required=False)
 
     governorate = forms.ModelChoiceField(
         queryset=Location.objects.filter(parent__isnull=True), widget=forms.Select,
@@ -80,11 +80,11 @@ class CommonForm(forms.ModelForm):
         initial=0
     )
     location = forms.CharField(widget=forms.TextInput, required=True)
-    language = forms.MultipleChoiceField(
-        choices=CLM.LANGUAGES,
-        widget=forms.CheckboxSelectMultiple,
-        required=True
-    )
+    # language = forms.MultipleChoiceField(
+    #     choices=CLM.LANGUAGES,
+    #     widget=forms.CheckboxSelectMultiple,
+    #     required=True
+    # )
 
     student_first_name = forms.CharField(widget=forms.TextInput, required=True)
     student_father_name = forms.CharField(widget=forms.TextInput, required=True)
@@ -113,44 +113,44 @@ class CommonForm(forms.ModelForm):
     )
 
     student_mother_fullname = forms.CharField(widget=forms.TextInput, required=True)
-    student_address = forms.CharField(widget=forms.TextInput, required=True)
-    student_p_code = forms.CharField(widget=forms.TextInput, required=False)
+    #student_address = forms.CharField(widget=forms.TextInput, required=True)
+    #student_p_code = forms.CharField(widget=forms.TextInput, required=False)
 
-    disability = forms.ModelChoiceField(
-        queryset=Disability.objects.all(), widget=forms.Select,
-        empty_label=_('Disability'),
-        required=True, to_field_name='id',
-        initial=1
-    )
+    # disability = forms.ModelChoiceField(
+    #     queryset=Disability.objects.all(), widget=forms.Select,
+    #     empty_label=_('Disability'),
+    #     required=True, to_field_name='id',
+    #     initial=1
+    # )
     student_family_status = forms.ChoiceField(
         widget=forms.Select, required=True,
         choices=Student.FAMILY_STATUS,
         initial='single'
     )
-    student_have_children = forms.TypedChoiceField(
-        label=_("Have children?"),
-        choices=YES_NO_CHOICE,
-        coerce=lambda x: bool(int(x)),
-        widget=forms.RadioSelect,
-        required=False,
-    )
+    # student_have_children = forms.TypedChoiceField(
+    #     label=_("Have children?"),
+    #     choices=YES_NO_CHOICE,
+    #     coerce=lambda x: bool(int(x)),
+    #     widget=forms.RadioSelect,
+    #     required=False,
+    # )
 
-    have_labour = forms.MultipleChoiceField(
-        choices=CLM.HAVE_LABOUR,
-        widget=forms.CheckboxSelectMultiple,
-        required=False, initial='no'
-    )
-    labours = forms.MultipleChoiceField(
-        choices=CLM.LABOURS,
-        widget=forms.CheckboxSelectMultiple,
-        required=False
-    )
-    labour_hours = forms.CharField(widget=forms.TextInput, required=False)
-    hh_educational_level = forms.ModelChoiceField(
-        queryset=EducationalLevel.objects.all(), widget=forms.Select,
-        empty_label=_('HH educational level'),
-        required=False, to_field_name='id',
-    )
+    # have_labour = forms.MultipleChoiceField(
+    #     choices=CLM.HAVE_LABOUR,
+    #     widget=forms.CheckboxSelectMultiple,
+    #     required=False, initial='no'
+    # )
+    # labours = forms.MultipleChoiceField(
+    #     choices=CLM.LABOURS,
+    #     widget=forms.CheckboxSelectMultiple,
+    #     required=False
+    # )
+    # labour_hours = forms.CharField(widget=forms.TextInput, required=False)
+    # hh_educational_level = forms.ModelChoiceField(
+    #     queryset=EducationalLevel.objects.all(), widget=forms.Select,
+    #     empty_label=_('HH educational level'),
+    #     required=False, to_field_name='id',
+    # )
 
     student_id = forms.CharField(widget=forms.HiddenInput, required=False)
     enrollment_id = forms.CharField(widget=forms.HiddenInput, required=False)
@@ -173,13 +173,13 @@ class CommonForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CommonForm, self).__init__(*args, **kwargs)
 
-        self.fields['cycle'].empty_label = _('-----------')
+        #self.fields['cycle'].empty_label = _('-----------')
         self.fields['governorate'].empty_label = _('-----------')
         self.fields['district'].empty_label = _('-----------')
         self.fields['student_sex'].empty_label = _('-----------')
         self.fields['student_nationality'].empty_label = _('-----------')
-        self.fields['disability'].empty_label = _('-----------')
-        self.fields['hh_educational_level'].empty_label = _('-----------')
+        #self.fields['disability'].empty_label = _('-----------')
+        #self.fields['hh_educational_level'].empty_label = _('-----------')
 
     def save(self, request=None, instance=None, serializer=None):
         if instance:
@@ -206,11 +206,11 @@ class CommonForm(forms.ModelForm):
             # 'have_barcode',
             # 'search_barcode',
             # 'search_student',
-            'outreach_barcode',
+            #'outreach_barcode',
             'governorate',
             'district',
             'location',
-            'language',
+            #'language',
             'student_first_name',
             'student_father_name',
             'student_last_name',
@@ -220,18 +220,18 @@ class CommonForm(forms.ModelForm):
             'student_birthday_day',
             'student_nationality',
             'student_mother_fullname',
-            'student_address',
-            'student_p_code',
-            'disability',
+            #'student_address',
+            #'student_p_code',
+            #'disability',
             'student_family_status',
-            'student_have_children',
-            'have_labour',
-            'labours',
-            'labour_hours',
-            'hh_educational_level',
-            'participation',
-            'barriers',
-            'learning_result',
+            #'student_have_children',
+            #'have_labour',
+            #'labours',
+            #'labour_hours',
+            #'hh_educational_level',
+            #'participation',
+            #'barriers',
+            #'learning_result',
             'student_id',
             'enrollment_id',
             'student_outreach_child',
@@ -250,23 +250,21 @@ class CommonForm(forms.ModelForm):
 
 class BLNForm(CommonForm):
 
-    cycle = forms.ModelChoiceField(
-        queryset=Cycle.objects.all(), widget=forms.Select,
-        empty_label=_('Programme Cycle'),
-        required=True, to_field_name='id',
-        initial=0
-    )
-    referral = forms.MultipleChoiceField(
-        choices=CLM.REFERRAL,
-        widget=forms.CheckboxSelectMultiple,
-        required=True,
-    )
+    # cycle = forms.ModelChoiceField(
+    #     queryset=Cycle.objects.all(), widget=forms.Select,
+    #     empty_label=_('Programme Cycle'),
+    #     required=True, to_field_name='id',
+    #     initial=0
+    # )
+    # referral = forms.MultipleChoiceField(
+    #     choices=CLM.REFERRAL,
+    #     widget=forms.CheckboxSelectMultiple,
+    #     required=True,
+    # )
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super(BLNForm, self).__init__(*args, **kwargs)
-
-        
 
         display_registry = ''
         instance = kwargs['instance'] if 'instance' in kwargs else ''
@@ -275,101 +273,105 @@ class BLNForm(CommonForm):
         if instance:
             form_action = reverse('clm:bln_edit', kwargs={'pk': instance.id})
 
-            my_forms = []
-            all_forms = Assessment.objects.values('name').distinct()
-            testflds = []
+            all_forms = Assessment.objects.all()
+            dynamic_fields = []
+
+            new_forms = {}
 
             for specific_form in all_forms:
-                #print(specific_form['name'])
-                form_name = specific_form['name']
-                assessment_all = Assessment.objects.filter(name=specific_form['name'])
-                html_str = ""
-
-                for specific_assessment in assessment_all:
-                    #print(specific_assessment.id)
-                    test = '{form}?d[status]={status}&returnURL={callback}'.format(
-                        form=specific_assessment.assessment_form,
-                        status=specific_assessment.name,
+                formtxt = '{form}'.format(
+                        form=specific_form.assessment_form,
+                        status=specific_form.name,
                         callback=self.request.build_absolute_uri(
                             reverse('clm:bln_assessment', kwargs={'pk': instance.id})
                         )
                     )
-                    html_str = html_str + '<div class="col-md-3"><a class="btn btn-success" href="'+test+'">'+specific_assessment.slug+'</a></div> '
-                    print(html_str)
-                    my_forms.append(test)
+                if specific_form.name not in new_forms:  
+                    new_forms[specific_form.name] = {}
 
-                testsDiv = Div(
-                    HTML(html_str),
+                new_forms[specific_form.name][specific_form.test_order] = {'title': specific_form.title , 'form': formtxt, 'overview' : specific_form.overview}
+
+            assessment_fieldset = []
+            for name in new_forms:
+                print(name)
+                test_html = ""
+                for test_order in new_forms[name]:
+                    test_html = test_html +  '<div class="col-md-3"><a class="btn btn-success" href="'+new_forms[name][test_order]['form']+'">'+new_forms[name][test_order]['title']+'</a></div> '
+
+                assessment_div = Div(
+                    HTML(test_html),
                     css_class='row'
                 )
                 testFieldset = Fieldset(
                     None,
                     Div(
-                        HTML('<h4 id="alternatives-to-hidden-labels">'+specific_assessment.name+'</h4>')
+                        HTML('<h4 id="alternatives-to-hidden-labels">'+new_forms[name][test_order]['overview']+'</h4>')
                     ),
-                    testsDiv,
+                    assessment_div,
                     Div(
                         HTML('<div class="p-3"></div>'),
                         css_class='row'
                     ),
                     css_class='bd-callout bd-callout-warning'
                 )
-                testflds.append(testFieldset)
+                assessment_fieldset.append(testFieldset)
+
+                dynamic_fields = assessment_fieldset
 
             #School Readiness only shown with the Assesments
-            testflds.append( Fieldset(
-                    None,
-                    Div(
-                        HTML('<h4 id="alternatives-to-hidden-labels">School Readiness</h4>')
-                    ),
-                    Div(
-                        HTML('<span class="badge badge-default">1</span>'),
-                        Div('participation', css_class='col-md-3'),
-                        HTML('<span class="badge badge-default">2</span>'),
-                        Div('barriers', css_class='col-md-3'),
-                        HTML('<span class="badge badge-default">3</span>'),
-                        Div('learning_result', css_class='col-md-3'),
-                        css_class='row',
-                    ),
-                    css_class='bd-callout bd-callout-warning'
-                )
-            )
+            # dynamic_fields.append( Fieldset(
+            #         None,
+            #         Div(
+            #             HTML('<h4 id="alternatives-to-hidden-labels">School Readiness</h4>')
+            #         ),
+            #         Div(
+            #             HTML('<span class="badge badge-default">1</span>'),
+            #             Div('participation', css_class='col-md-3'),
+            #             HTML('<span class="badge badge-default">2</span>'),
+            #             Div('barriers', css_class='col-md-3'),
+            #             HTML('<span class="badge badge-default">3</span>'),
+            #             Div('learning_result', css_class='col-md-3'),
+            #             css_class='row',
+            #         ),
+            #         css_class='bd-callout bd-callout-warning'
+            #     )
+            # )
        
 
         self.helper = FormHelper()
         self.helper.form_show_labels = True
         self.helper.form_action = form_action
         self.helper.layout = Layout(
-            Fieldset(
-                None,
-                Div(
-                    HTML('<h4 id="alternatives-to-hidden-labels">Registry</h4>')
-                ),
-                Div(
-                    'student_id',
-                    'enrollment_id',
-                    'student_outreach_child',
-                    HTML('<span class="badge badge-default">1</span>'),
-                    Div(InlineRadios('new_registry'), css_class='col-md-3'),
-                    HTML('<span class="badge badge-default">2</span>'),
-                    Div(InlineRadios('student_outreached'), css_class='col-md-3'),
-                    HTML('<span class="badge badge-default">3</span>'),
-                    Div(InlineRadios('have_barcode'), css_class='col-md-3'),
-                    css_class='row',
-                ),
-                css_class='bd-callout bd-callout-warning'+display_registry
-            ),
-            Fieldset(
-                None,
-                Div(
-                    HTML('<h4 id="alternatives-to-hidden-labels">Register by Barcode</h4>')
-                ),
-                Div(
-                    Div('search_barcode', css_class='col-md-6'),
-                    css_class='row',
-                ),
-                css_id='register_by_barcode', css_class='bd-callout bd-callout-warning'+display_registry
-            ),
+            # Fieldset(
+            #     None,
+            #     Div(
+            #         HTML('<h4 id="alternatives-to-hidden-labels">Registry</h4>')
+            #     ),
+            #     Div(
+            #         'student_id',
+            #         'enrollment_id',
+            #         'student_outreach_child',
+            #         HTML('<span class="badge badge-default">1</span>'),
+            #         Div(InlineRadios('new_registry'), css_class='col-md-3'),
+            #         HTML('<span class="badge badge-default">2</span>'),
+            #         Div(InlineRadios('student_outreached'), css_class='col-md-3'),
+            #         HTML('<span class="badge badge-default">3</span>'),
+            #         Div(InlineRadios('have_barcode'), css_class='col-md-3'),
+            #         css_class='row',
+            #     ),
+            #     css_class='bd-callout bd-callout-warning'+display_registry
+            # ),
+            # Fieldset(
+            #     None,
+            #     Div(
+            #         HTML('<h4 id="alternatives-to-hidden-labels">Register by Barcode</h4>')
+            #     ),
+            #     Div(
+            #         Div('search_barcode', css_class='col-md-6'),
+            #         css_class='row',
+            #     ),
+            #     css_id='register_by_barcode', css_class='bd-callout bd-callout-warning'+display_registry
+            # ),
             # Fieldset(
             #     None,
             #     Div(
@@ -387,8 +389,8 @@ class BLNForm(CommonForm):
                     HTML('<h4 id="alternatives-to-hidden-labels">Program Information</h4>')
                 ),
                 Div(
-                    HTML('<span class="badge badge-default">1</span>'),
-                    Div('cycle', css_class='col-md-3'),
+                    # HTML('<span class="badge badge-default">1</span>'),
+                    # Div('cycle', css_class='col-md-3'),
                     HTML('<span class="badge badge-default">2</span>'),
                     Div('governorate', css_class='col-md-3'),
                     HTML('<span class="badge badge-default">3</span>'),
@@ -398,8 +400,8 @@ class BLNForm(CommonForm):
                 Div(
                     HTML('<span class="badge badge-default">4</span>'),
                     Div('location', css_class='col-md-3'),
-                    HTML('<span class="badge badge-default">5</span>'),
-                    Div('language', css_class='col-md-3'),
+                    #HTML('<span class="badge badge-default">5</span>'),
+                    #Div('language', css_class='col-md-3'),
                     css_class='row',
                 ),
                 css_class='bd-callout bd-callout-warning'
@@ -409,11 +411,11 @@ class BLNForm(CommonForm):
                 Div(
                     HTML('<h4 id="alternatives-to-hidden-labels">Child Information</h4>')
                 ),
-                Div(
-                    HTML('<span class="badge badge-default">1</span>'),
-                    Div('referral', css_class='col-md-9'),
-                    css_class='row',
-                ),
+                # Div(
+                #     HTML('<span class="badge badge-default">1</span>'),
+                #     Div('referral', css_class='col-md-9'),
+                #     css_class='row',
+                # ),
                 Div(
                     HTML('<span class="badge badge-default">2</span>'),
                     Div('student_first_name', css_class='col-md-3'),
@@ -441,20 +443,20 @@ class BLNForm(CommonForm):
                     Div('student_mother_fullname', css_class='col-md-3'),
                     css_class='row',
                 ),
-                Div(
-                    HTML('<span class="badge badge-default">11</span>'),
-                    Div('student_address', css_class='col-md-3'),
-                    HTML('<span class="badge badge-default">12</span>'),
-                    Div('student_p_code', css_class='col-md-3'),
-                    HTML('<span class="badge badge-default">13</span>'),
-                    Div('disability', css_class='col-md-3'),
-                    css_class='row',
-                ),
-                Div(
-                    HTML('<span class="badge badge-default">14</span>'),
-                    Div('outreach_barcode', css_class='col-md-3'),
-                    css_class='row',
-                ),
+                # Div(
+                #     HTML('<span class="badge badge-default">11</span>'),
+                #     Div('student_address', css_class='col-md-3'),
+                #     HTML('<span class="badge badge-default">12</span>'),
+                #     Div('student_p_code', css_class='col-md-3'),
+                #     HTML('<span class="badge badge-default">13</span>'),
+                #     Div('disability', css_class='col-md-3'),
+                #     css_class='row',
+                # ),
+                # Div(
+                #     HTML('<span class="badge badge-default">14</span>'),
+                #     Div('outreach_barcode', css_class='col-md-3'),
+                #     css_class='row',
+                # ),
                 css_class='bd-callout bd-callout-warning'
             ),
             Fieldset(
@@ -464,29 +466,29 @@ class BLNForm(CommonForm):
                 ),
                 Div(
                     HTML('<span class="badge badge-default">1</span>'),
-                    Div('hh_educational_level', css_class='col-md-3'),
-                    HTML('<span class="badge badge-default">2</span>'),
+                    # Div('hh_educational_level', css_class='col-md-3'),
+                    # HTML('<span class="badge badge-default">2</span>'),
                     Div('student_family_status', css_class='col-md-3'),
                     HTML('<span class="badge badge-default">3</span>'),
                     Div('student_have_children', css_class='col-md-3', css_id='student_have_children'),
                     css_class='row',
                 ),
-                Div(
-                    HTML('<span class="badge badge-default">4</span>'),
-                    Div('have_labour', css_class='col-md-3'),
-                    HTML('<span class="badge badge-default">5</span>'),
-                    Div('labours', css_class='col-md-3', css_id='labours'),
-                    HTML('<span class="badge badge-default">6</span>'),
-                    Div('labour_hours', css_class='col-md-3', css_id='labour_hours'),
-                    css_class='row',
-                ),
-                css_class='bd-callout bd-callout-warning'
+            #     Div(
+            #         HTML('<span class="badge badge-default">4</span>'),
+            #         Div('have_labour', css_class='col-md-3'),
+            #         HTML('<span class="badge badge-default">5</span>'),
+            #         Div('labours', css_class='col-md-3', css_id='labours'),
+            #         HTML('<span class="badge badge-default">6</span>'),
+            #         Div('labour_hours', css_class='col-md-3', css_id='labour_hours'),
+            #         css_class='row',
+            #     ),
+                 css_class='bd-callout bd-callout-warning'
             ),
         )
-
-        for myflds in testflds:
-            self.helper.layout.append(myflds)
-
+        
+        if instance:
+            for myflds in dynamic_fields:
+                self.helper.layout.append(myflds)
         
         self.helper.layout.append(
             FormActions(
@@ -502,8 +504,8 @@ class BLNForm(CommonForm):
     class Meta:
         model = BLN
         fields = CommonForm.Meta.fields + (
-            'cycle',
-            'referral',
+            #'cycle',
+            #'referral',
         )
 
     class Media:
