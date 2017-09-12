@@ -9,6 +9,30 @@ var moved_student_path = host+'/api/logging-student-move/';
 
 $(document).ready(function(){
 
+
+    $('select[name=rzcountry]').change(function(){
+        country_id = $(this).val();
+
+        request_url = '/clm/get_gov/' + country_id + '/';
+        $.ajax({
+            url: request_url,
+            success: function(data){
+                $('select[name=rzgov]')
+                    .find('option')
+                    .remove()
+                    .end()
+                    .append('<option value>-----------</option>')
+                ;
+                $.each(data, function(index, text){
+                    $('select[name=rzgov]').append(
+                         $('<option></option>').val(index).html(text)
+                     );
+                });
+            }
+        });
+        return false;
+    });
+
     if($(document).find('#id_registration_date').length == 1) {
         $('#id_registration_date').datepicker({dateFormat: "yy-mm-dd"});
     }

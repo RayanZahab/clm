@@ -31,15 +31,24 @@ from .tables import BootstrapTable, BLNTable, RSTable, CBECETable
 
 from student_registration.outreach.models import Child
 from student_registration.outreach.serializers import ChildSerializer
-from .models import BLN, RS, CBECE
+from .models import BLN, RS, CBECE, CLM, Location
 from .forms import BLNForm, RSForm, CBECEForm
 from .serializers import BLNSerializer, RSSerializer, CBECESerializer
+import simplejson
+
+
+def get_gov(self, *args, **kwargs):
+    govs = Location.objects.filter(parent_id=kwargs['pk'])
+    govs_dict = {}
+    for gov in govs:
+        govs_dict[gov.id] = gov.name
+    print(govs_dict)
+    return HttpResponse(simplejson.dumps(govs_dict), content_type='application/json')
 
 
 class CLMView(LoginRequiredMixin,
-            # GroupRequiredMixin,
-            TemplateView):
-
+              # GroupRequiredMixin,
+              TemplateView):
     template_name = 'clm/index.html'
 
     # group_required = [u"ENROL_EDIT"]
@@ -49,9 +58,8 @@ class CLMView(LoginRequiredMixin,
 
 
 class BLNAddView(LoginRequiredMixin,
-                     # GroupRequiredMixin,
-                     FormView):
-
+                 # GroupRequiredMixin,
+                 FormView):
     template_name = 'clm/bln_add.html'
     form_class = BLNForm
     success_url = '/clm/bln-list/'
@@ -82,9 +90,8 @@ class BLNAddView(LoginRequiredMixin,
 
 
 class BLNEditView(LoginRequiredMixin,
-                         # GroupRequiredMixin,
-                         FormView):
-
+                  # GroupRequiredMixin,
+                  FormView):
     template_name = 'clm/bln_edit.html'
     form_class = BLNForm
     success_url = '/clm/bln-list/'
@@ -113,12 +120,10 @@ class BLNEditView(LoginRequiredMixin,
 
 @method_decorator(csrf_exempt, name='dispatch')
 class BLNAssessmentSubmission(SingleObjectMixin, View):
-
     model = BLN
     slug_url_kwarg = 'status'
 
     def post(self, request, *args, **kwargs):
-
         if 'status' not in request.body:
             return HttpResponseBadRequest()
 
@@ -137,7 +142,6 @@ class BLNListView(LoginRequiredMixin,
                   ExportMixin,
                   SingleTableView,
                   RequestConfig):
-
     table_class = BLNTable
     model = BLN
     template_name = 'clm/bln_list.html'
@@ -152,7 +156,6 @@ class BLNListView(LoginRequiredMixin,
 class RSAddView(LoginRequiredMixin,
                 # GroupRequiredMixin,
                 FormView):
-
     template_name = 'clm/rs_add.html'
     form_class = RSForm
     success_url = '/clm/rs-list/'
@@ -185,7 +188,6 @@ class RSAddView(LoginRequiredMixin,
 class RSEditView(LoginRequiredMixin,
                  # GroupRequiredMixin,
                  FormView):
-
     template_name = 'clm/rs_edit.html'
     form_class = RSForm
     success_url = '/clm/rs-list/'
@@ -216,7 +218,6 @@ class RSListView(LoginRequiredMixin,
                  ExportMixin,
                  SingleTableView,
                  RequestConfig):
-
     table_class = RSTable
     model = RS
     template_name = 'clm/rs_list.html'
@@ -231,7 +232,6 @@ class RSListView(LoginRequiredMixin,
 class CBECEAddView(LoginRequiredMixin,
                    # GroupRequiredMixin,
                    FormView):
-
     template_name = 'clm/cbece_add.html'
     form_class = CBECEForm
     success_url = '/clm/cbece-list/'
@@ -264,7 +264,6 @@ class CBECEAddView(LoginRequiredMixin,
 class CBECEEditView(LoginRequiredMixin,
                     # GroupRequiredMixin,
                     FormView):
-
     template_name = 'clm/cbece_edit.html'
     form_class = CBECEForm
     success_url = '/clm/cbece-list/'
@@ -295,7 +294,6 @@ class CBECEListView(LoginRequiredMixin,
                     ExportMixin,
                     SingleTableView,
                     RequestConfig):
-
     table_class = CBECETable
     model = CBECE
     template_name = 'clm/cbece_list.html'
@@ -305,6 +303,5 @@ class CBECEListView(LoginRequiredMixin,
 
     def get_queryset(self):
         return CBECE.objects.filter(owner=self.request.user)
-
 
 ####################### API VIEWS #############################

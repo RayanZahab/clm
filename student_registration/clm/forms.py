@@ -40,7 +40,6 @@ DAYS.append(('', _('---------')))
 
 
 class CommonForm(forms.ModelForm):
-
     # new_registry = forms.TypedChoiceField(
     #     label=_("First time registered?"),
     #     choices=YES_NO_CHOICE,
@@ -67,8 +66,29 @@ class CommonForm(forms.ModelForm):
     # # search_student = forms.CharField(widget=forms.TextInput, required=False)
     # outreach_barcode = forms.CharField(widget=forms.TextInput, required=False)
 
-    governorate = forms.ModelChoiceField(
+    rzcountry = forms.ModelChoiceField(
         queryset=Location.objects.filter(parent__isnull=True), widget=forms.Select,
+        empty_label=_('RZLoc'),
+        required=True, to_field_name='id',
+        initial=0
+    )
+
+
+    rzgov = forms.ModelChoiceField(
+        queryset=Location.objects.none(), widget=forms.Select,
+        empty_label=_('RZgov'),
+        required=True, to_field_name='id',
+        initial=0
+    )
+
+    country = forms.ModelChoiceField(
+        queryset=Location.objects.filter(parent__isnull=True), widget=forms.Select,
+        empty_label=_('Country'),
+        required=True, to_field_name='id',
+        initial=0
+    )
+    governorate = forms.ModelChoiceField(
+        queryset=Location.objects.filter(parent__isnull=False), widget=forms.Select,
         empty_label=_('Governorate'),
         required=True, to_field_name='id',
         initial=0
@@ -113,8 +133,8 @@ class CommonForm(forms.ModelForm):
     )
 
     student_mother_fullname = forms.CharField(widget=forms.TextInput, required=True)
-    #student_address = forms.CharField(widget=forms.TextInput, required=True)
-    #student_p_code = forms.CharField(widget=forms.TextInput, required=False)
+    # student_address = forms.CharField(widget=forms.TextInput, required=True)
+    # student_p_code = forms.CharField(widget=forms.TextInput, required=False)
 
     # disability = forms.ModelChoiceField(
     #     queryset=Disability.objects.all(), widget=forms.Select,
@@ -173,13 +193,14 @@ class CommonForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CommonForm, self).__init__(*args, **kwargs)
 
-        #self.fields['cycle'].empty_label = _('-----------')
-        self.fields['governorate'].empty_label = _('-----------')
+        # self.fields['cycle'].empty_label = _('-----------')
+        self.fields['rzcountry'].empty_label = _('-----------')
+        self.fields['rzgov'].empty_label = _('-----------')
         self.fields['district'].empty_label = _('-----------')
         self.fields['student_sex'].empty_label = _('-----------')
         self.fields['student_nationality'].empty_label = _('-----------')
-        #self.fields['disability'].empty_label = _('-----------')
-        #self.fields['hh_educational_level'].empty_label = _('-----------')
+        # self.fields['disability'].empty_label = _('-----------')
+        # self.fields['hh_educational_level'].empty_label = _('-----------')
 
     def save(self, request=None, instance=None, serializer=None):
         if instance:
@@ -206,11 +227,12 @@ class CommonForm(forms.ModelForm):
             # 'have_barcode',
             # 'search_barcode',
             # 'search_student',
-            #'outreach_barcode',
-            'governorate',
+            # 'outreach_barcode',
+            'rzcountry',
+            'rzgov',
             'district',
             'location',
-            #'language',
+            # 'language',
             'student_first_name',
             'student_father_name',
             'student_last_name',
@@ -220,18 +242,18 @@ class CommonForm(forms.ModelForm):
             'student_birthday_day',
             'student_nationality',
             'student_mother_fullname',
-            #'student_address',
-            #'student_p_code',
-            #'disability',
+            # 'student_address',
+            # 'student_p_code',
+            # 'disability',
             'student_family_status',
-            #'student_have_children',
-            #'have_labour',
-            #'labours',
-            #'labour_hours',
-            #'hh_educational_level',
-            #'participation',
-            #'barriers',
-            #'learning_result',
+            # 'student_have_children',
+            # 'have_labour',
+            # 'labours',
+            # 'labour_hours',
+            # 'hh_educational_level',
+            # 'participation',
+            # 'barriers',
+            # 'learning_result',
             'student_id',
             'enrollment_id',
             'student_outreach_child',
@@ -249,7 +271,6 @@ class CommonForm(forms.ModelForm):
 
 
 class BLNForm(CommonForm):
-
     # cycle = forms.ModelChoiceField(
     #     queryset=Cycle.objects.all(), widget=forms.Select,
     #     empty_label=_('Programme Cycle'),
@@ -280,23 +301,27 @@ class BLNForm(CommonForm):
 
             for specific_form in all_forms:
                 formtxt = '{form}'.format(
-                        form=specific_form.assessment_form,
-                        status=specific_form.name,
-                        callback=self.request.build_absolute_uri(
-                            reverse('clm:bln_assessment', kwargs={'pk': instance.id})
-                        )
+                    form=specific_form.assessment_form,
+                    status=specific_form.name,
+                    callback=self.request.build_absolute_uri(
+                        reverse('clm:bln_assessment', kwargs={'pk': instance.id})
                     )
-                if specific_form.name not in new_forms:  
+                )
+                if specific_form.name not in new_forms:
                     new_forms[specific_form.name] = {}
 
-                new_forms[specific_form.name][specific_form.test_order] = {'title': specific_form.title , 'form': formtxt, 'overview' : specific_form.overview}
+                new_forms[specific_form.name][specific_form.test_order] = {'title': specific_form.title,
+                                                                           'form': formtxt,
+                                                                           'overview': specific_form.overview}
 
             assessment_fieldset = []
             for name in new_forms:
                 print(name)
                 test_html = ""
                 for test_order in new_forms[name]:
-                    test_html = test_html +  '<div class="col-md-3"><a class="btn btn-success" href="'+new_forms[name][test_order]['form']+'">'+new_forms[name][test_order]['title']+'</a></div> '
+                    test_html = test_html + '<div class="col-md-3"><a class="btn btn-success" href="' + \
+                                new_forms[name][test_order]['form'] + '">' + new_forms[name][test_order][
+                                    'title'] + '</a></div> '
 
                 assessment_div = Div(
                     HTML(test_html),
@@ -305,7 +330,8 @@ class BLNForm(CommonForm):
                 testFieldset = Fieldset(
                     None,
                     Div(
-                        HTML('<h4 id="alternatives-to-hidden-labels">'+new_forms[name][test_order]['overview']+'</h4>')
+                        HTML('<h4 id="alternatives-to-hidden-labels">' + new_forms[name][test_order][
+                            'overview'] + '</h4>')
                     ),
                     assessment_div,
                     Div(
@@ -318,25 +344,24 @@ class BLNForm(CommonForm):
 
                 dynamic_fields = assessment_fieldset
 
-            #School Readiness only shown with the Assesments
-            # dynamic_fields.append( Fieldset(
-            #         None,
-            #         Div(
-            #             HTML('<h4 id="alternatives-to-hidden-labels">School Readiness</h4>')
-            #         ),
-            #         Div(
-            #             HTML('<span class="badge badge-default">1</span>'),
-            #             Div('participation', css_class='col-md-3'),
-            #             HTML('<span class="badge badge-default">2</span>'),
-            #             Div('barriers', css_class='col-md-3'),
-            #             HTML('<span class="badge badge-default">3</span>'),
-            #             Div('learning_result', css_class='col-md-3'),
-            #             css_class='row',
-            #         ),
-            #         css_class='bd-callout bd-callout-warning'
-            #     )
-            # )
-       
+                # School Readiness only shown with the Assesments
+                # dynamic_fields.append( Fieldset(
+                #         None,
+                #         Div(
+                #             HTML('<h4 id="alternatives-to-hidden-labels">School Readiness</h4>')
+                #         ),
+                #         Div(
+                #             HTML('<span class="badge badge-default">1</span>'),
+                #             Div('participation', css_class='col-md-3'),
+                #             HTML('<span class="badge badge-default">2</span>'),
+                #             Div('barriers', css_class='col-md-3'),
+                #             HTML('<span class="badge badge-default">3</span>'),
+                #             Div('learning_result', css_class='col-md-3'),
+                #             css_class='row',
+                #         ),
+                #         css_class='bd-callout bd-callout-warning'
+                #     )
+                # )
 
         self.helper = FormHelper()
         self.helper.form_show_labels = True
@@ -389,10 +414,10 @@ class BLNForm(CommonForm):
                     HTML('<h4 id="alternatives-to-hidden-labels">Program Information</h4>')
                 ),
                 Div(
-                    # HTML('<span class="badge badge-default">1</span>'),
-                    # Div('cycle', css_class='col-md-3'),
+                    HTML('<span class="badge badge-default">1</span>'),
+                    Div('rzcountry', css_class='col-md-3'),
                     HTML('<span class="badge badge-default">2</span>'),
-                    Div('governorate', css_class='col-md-3'),
+                    Div('rzgov', css_class='col-md-3'),
                     HTML('<span class="badge badge-default">3</span>'),
                     Div('district', css_class='col-md-3'),
                     css_class='row',
@@ -400,8 +425,8 @@ class BLNForm(CommonForm):
                 Div(
                     HTML('<span class="badge badge-default">4</span>'),
                     Div('location', css_class='col-md-3'),
-                    #HTML('<span class="badge badge-default">5</span>'),
-                    #Div('language', css_class='col-md-3'),
+                    # HTML('<span class="badge badge-default">5</span>'),
+                    # Div('language', css_class='col-md-3'),
                     css_class='row',
                 ),
                 css_class='bd-callout bd-callout-warning'
@@ -466,30 +491,30 @@ class BLNForm(CommonForm):
                 ),
                 Div(
                     HTML('<span class="badge badge-default">1</span>'),
-                    # Div('hh_educational_level', css_class='col-md-3'),
-                    # HTML('<span class="badge badge-default">2</span>'),
                     Div('student_family_status', css_class='col-md-3'),
-                    HTML('<span class="badge badge-default">3</span>'),
-                    Div('student_have_children', css_class='col-md-3', css_id='student_have_children'),
+                    # HTML('<span class="badge badge-default">2</span>'),
+                    # Div('hh_educational_level', css_class='col-md-3'),
+                    # HTML('<span class="badge badge-default">3</span>'),
+                    # Div('student_have_children', css_class='col-md-3', css_id='student_have_children'),
                     css_class='row',
                 ),
-            #     Div(
-            #         HTML('<span class="badge badge-default">4</span>'),
-            #         Div('have_labour', css_class='col-md-3'),
-            #         HTML('<span class="badge badge-default">5</span>'),
-            #         Div('labours', css_class='col-md-3', css_id='labours'),
-            #         HTML('<span class="badge badge-default">6</span>'),
-            #         Div('labour_hours', css_class='col-md-3', css_id='labour_hours'),
-            #         css_class='row',
-            #     ),
-                 css_class='bd-callout bd-callout-warning'
+                #     Div(
+                #         HTML('<span class="badge badge-default">4</span>'),
+                #         Div('have_labour', css_class='col-md-3'),
+                #         HTML('<span class="badge badge-default">5</span>'),
+                #         Div('labours', css_class='col-md-3', css_id='labours'),
+                #         HTML('<span class="badge badge-default">6</span>'),
+                #         Div('labour_hours', css_class='col-md-3', css_id='labour_hours'),
+                #         css_class='row',
+                #     ),
+                css_class='bd-callout bd-callout-warning'
             ),
         )
-        
+
         if instance:
             for myflds in dynamic_fields:
                 self.helper.layout.append(myflds)
-        
+
         self.helper.layout.append(
             FormActions(
                 Submit('save', _('Save')),
@@ -504,8 +529,8 @@ class BLNForm(CommonForm):
     class Meta:
         model = BLN
         fields = CommonForm.Meta.fields + (
-            #'cycle',
-            #'referral',
+            # 'cycle',
+            # 'referral',
         )
 
     class Media:
@@ -518,7 +543,6 @@ class BLNForm(CommonForm):
 
 
 class RSForm(CommonForm):
-
     cycle = forms.ModelChoiceField(
         queryset=RSCycle.objects.all(), widget=forms.Select,
         empty_label=_('Programme Cycle'),
@@ -557,7 +581,6 @@ class RSForm(CommonForm):
 
 
 class CBECEForm(CommonForm):
-
     cycle = forms.ModelChoiceField(
         queryset=Cycle.objects.all(), widget=forms.Select,
         empty_label=_('Programme Cycle'),

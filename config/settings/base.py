@@ -152,8 +152,7 @@ DATABASES = {
     'default': env.db('DATABASE_URL', default='postgres:///student_registration'),
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
-DATABASES['default']['USER'] = "postgres"
-DATABASES['default']['PASSWORD'] = "postgres"
+
 
 
 # GENERAL CONFIGURATION

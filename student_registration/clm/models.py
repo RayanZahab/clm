@@ -151,6 +151,11 @@ class CLM(TimeStampedModel):
         ('referred_to_another_program', _('Referred to another program')),
         ('dropout', _('Dropout from school'))
     )
+    country = models.ForeignKey(
+        Location,
+        blank=True, null=True,
+        related_name='+',
+    )
     governorate = models.ForeignKey(
         Location,
         blank=True, null=True,
@@ -322,7 +327,18 @@ class BLN(CLM):
         blank=True,
         null=True,
     )
-
+# class RZCountry(CLM):
+#     name = models.CharField(max_length=100)
+#
+#     def __unicode__(self):
+#         return u'%s' % self.name
+#
+# class RZGov(CLM):
+#     name = models.CharField(max_length=100)
+#     country = models.ForeignKey(RZCountry)
+#
+#     def __unicode__(self):
+#         return u'%s' % self.name
 
 class RS(CLM):
 

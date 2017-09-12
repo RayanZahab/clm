@@ -6,6 +6,13 @@ from . import views
 
 urlpatterns = [
 
+
+    url(
+        regex=r'^get_gov/(?P<pk>[\w.@+-]+)/$',
+        view=views.get_gov,
+        name='get_gov'
+    ),
+
     url(
         regex=r'^index/$',
         view=views.CLMView.as_view(),

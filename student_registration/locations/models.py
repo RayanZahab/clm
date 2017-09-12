@@ -30,9 +30,8 @@ class Location(MPTTModel):
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
 
     def __unicode__(self):
-        return u'{} - {}'.format(
-            self.name,
-            self.type.name
+        return u'{}'.format(
+            self.name
         )
 
     class Meta:

@@ -106,6 +106,7 @@ class CLMSerializer(serializers.ModelSerializer):
             'student_address',
             'student_p_code',
             'owner',
+            'country',
             'governorate',
             'district',
             'location',
